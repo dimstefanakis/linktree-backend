@@ -15,6 +15,7 @@ class BrandViewSet(viewsets.ModelViewSet):
     queryset = Brand.objects.all()
     serializer_class = serializers.BrandSerializer
     permission_classes = [AllowAny]
+    lookup_field = "username"
 
 
 class ColorPaletteViewSet(viewsets.ModelViewSet):
@@ -35,23 +36,25 @@ class UserProfileViewSet(viewsets.ModelViewSet):
 @authentication_classes([])
 @permission_classes([AllowAny])
 def create_brand(request):
-    color_palette_data = request.data.pop('color_palette')[0]
+    data = request.data.copy()
+    color_palette_data = data.pop('color_palette')[0]
     color_palette = json.loads(color_palette_data)
-    request.data['color_palette'] = color_palette
+    data['color_palette'] = color_palette
     color_palette_serializer = serializers.ColorPaletteSerializer(
-        data=request.data['color_palette'])
+        data=data['color_palette'])
 
     if color_palette_serializer.is_valid():
         color_palette_serializer.save()
         color_palette = ColorPalette.objects.get(
             id=color_palette_serializer.data['id'])
     else:
-        return Response(color_palette_serializer.errors)
+        return Response({'errors': color_palette_serializer.errors})
 
-    serializer = serializers.BrandSerializer(data=request.data)
+    serializer = serializers.BrandSerializer(data=data)
     if serializer.is_valid():
         brand = serializer.save()
         brand.color_palette = color_palette
         brand.save()
         return Response(serializer.data)
-    return Response(serializer.errors)
+
+    return Response({'errors': serializer.errors})

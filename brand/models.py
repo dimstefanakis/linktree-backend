@@ -1,20 +1,24 @@
 from django.db import models
 
+
 class ColorPalette(models.Model):
     background_color = models.CharField(max_length=100, default='#ffffff')
     text_color = models.CharField(max_length=100, default='#000000')
-    link_color = models.CharField(max_length=100, default='#0077ff')
-    button_color = models.CharField(max_length=100, default='#000000')
+    link_color = models.CharField(max_length=100, default='#3182ce')
+    button_color = models.CharField(max_length=100, default='#1A202C')
     button_text_color = models.CharField(max_length=100, default='#ffffff')
+
 
 class Brand(models.Model):
     name = models.CharField(max_length=100)
-    username = models.CharField(max_length=40, unique=True, blank=True, default='')
+    username = models.CharField(
+        max_length=40, unique=True, blank=True, default='')
     intro = models.TextField()
-    mission = models.TextField()
+    mission = models.TextField(blank=True, default='')
     logo = models.ImageField(upload_to='brand/logo')
     font = models.CharField(max_length=100, null=True, blank=True)
-    color_palette = models.ForeignKey(ColorPalette, on_delete=models.CASCADE, null=True, related_name="brand")
+    color_palette = models.ForeignKey(
+        ColorPalette, on_delete=models.CASCADE, null=True, related_name="brand")
     website_url = models.URLField(max_length=200, null=True, blank=True)
     facebook_url = models.URLField(max_length=200, null=True, blank=True)
     twitter_url = models.URLField(max_length=200, null=True, blank=True)
