@@ -63,6 +63,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:3000",
+    "linktree-backend.onrender.com",
 ]
 
 ROOT_URLCONF = 'linktreebackend.urls'
