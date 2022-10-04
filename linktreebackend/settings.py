@@ -30,7 +30,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
-    'localhost'
+    'localhost',
+    'linktree-app.onrender.com'
 ]
 
 
@@ -66,6 +67,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:3000",
+    "https://linktree-app.onrender.com",
 ]
 
 # DEBUG = 'RENDER' not in os.environ
